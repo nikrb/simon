@@ -58,13 +58,17 @@ class Pad extends React.Component {
     this.props.padClick( this.props.padNdx);
   }
   render(){
-    const padStyle = {
+    let padStyle = {
       cursor: "pointer",
       width: "50%",
       position: "absolute",
       zIndex: "102",
-      ... this.props.padStyle
+      // FIXME: ... this.props.padStyle
     };
+    if( this.props.padStyle.top) padStyle.top = this.props.padStyle.top;
+    if( this.props.padStyle.left) padStyle.left = this.props.padStyle.left;
+    if( this.props.padStyle.bottom) padStyle.bottom = this.props.padStyle.bottom;
+    if( this.props.padStyle.right) padStyle.right = this.props.padStyle.right;
     console.log( "pad render litup:", this.state.litup);
     return (
       <img style={padStyle} src={(this.state.litup) ? this.props.padSrcBright : this.props.padSrcDull} onClick={this.padClicked.bind(this)} />
@@ -96,11 +100,15 @@ class Application extends React.Component {
 
     return (
       <div id="simon-container">
-        <img id="simonMainImage" src="https://drive.google.com/uc?export=view&id=0B7KENrp4T1GjU0VDM3EtUmxmMUk" />
-        <Pad padStyle={padGreen} padNdx={0} padClick={this.padClick.bind(this)}  padSrcDull="https://drive.google.com/uc?export=view&id=0B7KENrp4T1GjNllDTzE0eUxoTnM" padSrcBright="https://drive.google.com/uc?export=view&id=0B7KENrp4T1GjZ1o2ZHZDTFhCS2c" />
-        <Pad padStyle={padRed} padNdx={1} padClick={this.padClick.bind(this)}   padSrcDull="https://drive.google.com/uc?export=view&id=0B7KENrp4T1GjcVVJbnhtZFhTUlU" padSrcBright="https://drive.google.com/uc?export=view&id=0B7KENrp4T1Gjb3N5dTItNG5YbFE"/>
-        <Pad padStyle={padYellow} padNdx={2} padClick={this.padClick.bind(this)}   padSrcDull="https://drive.google.com/uc?export=view&id=0B7KENrp4T1GjZ3NxSFdGTDUxSGM" padSrcBright="https://drive.google.com/uc?export=view&id=0B7KENrp4T1GjT1YyUGVfYmhLd1E" />
-        <Pad padStyle={padBlue} padNdx={3} padClick={this.padClick.bind(this)}   padSrcDull="https://drive.google.com/uc?export=view&id=0B7KENrp4T1GjczZNUXkzenJCYUU" padSrcBright="https://drive.google.com/uc?export=view&id=0B7KENrp4T1GjUk9KNVo3MGZIMWc"/>
+        <img id="simonMainImage" src="/img/simonBase.png" />
+        <Pad padStyle={padGreen} padNdx={0} padClick={this.padClick.bind(this)}
+          padSrcDull="/img/padGreenDull.png" padSrcBright="/img/padGreenBright.png" />
+        <Pad padStyle={padRed} padNdx={1} padClick={this.padClick.bind(this)}
+          padSrcDull="/img/padRedDull.png" padSrcBright="/img/padRedBright.png"/>
+        <Pad padStyle={padYellow} padNdx={2} padClick={this.padClick.bind(this)}
+          padSrcDull="/img/padYellowDull.png" padSrcBright="/img/padYellowBright.png" />
+        <Pad padStyle={padBlue} padNdx={3} padClick={this.padClick.bind(this)}
+          padSrcDull="/img/padBlueDull.png" padSrcBright="/img/padBlueBright.png"/>
       </div>
     );
   }
