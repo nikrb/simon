@@ -5,14 +5,16 @@ import style from '../scss/app.scss';
 class Pad extends React.Component {
   constructor( props){
     super( props);
+    this.handleLoad = this.handleLoad.bind(this);
+    this.handleError = this.handleError.bind(this);
     this.bright = new Image();
+    this.bright.onload = this.handleLoad;
+    this.bright.onerror = this.handleError;
     this.bright.src = this.props.padSrcBright;
-    this.bright.onLoad = this.handleLoad;
-    this.bright.onError = this.handleError;
     this.dull = new Image();
+    this.dull.onload = this.handleLoad;
+    this.dull.onerror = this.handleError;
     this.dull.src = this.props.padSrcDull;
-    this.dull.onLoad = this.handleLoad;
-    this.dull.onError = this.handleError;
     this.load_count = 0;
     this.state = {
       litup : false,
@@ -26,10 +28,9 @@ class Pad extends React.Component {
     }
   }
   handleError( e){
-    console.log( "pad image load error:", e);
+    console.error( "pad image load error:", e);
   }
   setBright( bright){
-    console.log( "set pad bright:", bright);
     this.setState( { litup : bright});
   }
 
@@ -38,24 +39,29 @@ class Pad extends React.Component {
     return [d[i],d[i+1],d[i+2],d[i+3]] // [R,G,B,A]
   }
   getPixelXY( imgData, x, y){
-    return getPixel(imgData, y*imgData.width+x);
+    return this.getPixel(imgData, y*imgData.width+x);
   }
-  getImageDataCrossOriginError(){
+  getTransparencyAtXY( x, y){
     const cvs = document.createElement('canvas')
-    const img = this.bright;
+    const img = this.dull;
     cvs.width = img.width;
     cvs.height = img.height;
     const ctx = cvs.getContext("2d");
     ctx.drawImage( img, 0, 0, cvs.width, cvs.height);
     const image_data = ctx.getImageData( 0,0,cvs.width, cvs.height);
-    const pd = getPixelXY( image_data, e.pageX, e.pageY);
-    console.log( "pix alpha:", pd[3]);
+    const pd = this.getPixelXY( image_data, x, y);
+    return pd[3];
   }
   padClicked( e){
-    console.log( "pad clicked:", this.props.padNdx);
-    this.setBright( true);
-    setTimeout( ()=>{ this.setBright( false)}, 250);
-    this.props.padClick( this.props.padNdx);
+    const alpha = this.getTransparencyAtXY( e.pageX, e.pageY);
+    console.log( "pad clicked alpha:", alpha);
+    if( alpha > 127){
+      this.setBright( true);
+      this.props.padClick( this.props.padNdx);
+    }
+  }
+  padReleased( e){
+    this.setBright( false);
   }
   render(){
     let padStyle = {
@@ -69,9 +75,10 @@ class Pad extends React.Component {
     if( this.props.padStyle.left) padStyle.left = this.props.padStyle.left;
     if( this.props.padStyle.bottom) padStyle.bottom = this.props.padStyle.bottom;
     if( this.props.padStyle.right) padStyle.right = this.props.padStyle.right;
-    console.log( "pad render litup:", this.state.litup);
     return (
-      <img style={padStyle} src={(this.state.litup) ? this.props.padSrcBright : this.props.padSrcDull} onClick={this.padClicked.bind(this)} />
+      <img style={padStyle} src={(this.state.litup) ?
+          this.props.padSrcBright : this.props.padSrcDull}
+          onMouseDown={this.padClicked.bind(this)} onMouseUp={this.padReleased.bind(this)} />
     );
   }
 }
