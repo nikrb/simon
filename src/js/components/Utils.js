@@ -1,0 +1,19 @@
+
+function getPixel(imgData, index) {
+  var i = index*4, d = imgData.data;
+  return [d[i],d[i+1],d[i+2],d[i+3]] // [R,G,B,A]
+}
+function getPixelXY( imgData, x, y){
+  return getPixel(imgData, y*imgData.width+x);
+}
+
+export function getTransparencyAtXY( img, x, y){
+  const cvs = document.createElement('canvas')
+  cvs.width = img.width;
+  cvs.height = img.height;
+  const ctx = cvs.getContext("2d");
+  ctx.drawImage( img, 0, 0, cvs.width, cvs.height);
+  const image_data = ctx.getImageData( 0,0,cvs.width, cvs.height);
+  const pd = getPixelXY( image_data, x, y);
+  return pd[3];
+}

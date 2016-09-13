@@ -1,4 +1,5 @@
 import React from 'react';
+import {getTransparencyAtXY} from "./Utils";
 
 export default class Pad extends React.Component {
   constructor( props){
@@ -32,26 +33,8 @@ export default class Pad extends React.Component {
     this.setState( { litup : bright});
   }
 
-  getPixel(imgData, index) {
-    var i = index*4, d = imgData.data;
-    return [d[i],d[i+1],d[i+2],d[i+3]] // [R,G,B,A]
-  }
-  getPixelXY( imgData, x, y){
-    return this.getPixel(imgData, y*imgData.width+x);
-  }
-  getTransparencyAtXY( x, y){
-    const cvs = document.createElement('canvas')
-    const img = this.dull;
-    cvs.width = img.width;
-    cvs.height = img.height;
-    const ctx = cvs.getContext("2d");
-    ctx.drawImage( img, 0, 0, cvs.width, cvs.height);
-    const image_data = ctx.getImageData( 0,0,cvs.width, cvs.height);
-    const pd = this.getPixelXY( image_data, x, y);
-    return pd[3];
-  }
   padClicked( e){
-    const alpha = this.getTransparencyAtXY( e.pageX - e.currentTarget.offsetLeft, e.pageY - e.currentTarget.offsetTop);
+    const alpha = getTransparencyAtXY( this.dull, e.pageX - e.currentTarget.offsetLeft, e.pageY - e.currentTarget.offsetTop);
     if( alpha > 127){
       this.setBright( true);
       this.props.padClick( this.props.padNdx);
