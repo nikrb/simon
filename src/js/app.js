@@ -53,8 +53,7 @@ class Pad extends React.Component {
     return pd[3];
   }
   padClicked( e){
-    const alpha = this.getTransparencyAtXY( e.pageX, e.pageY);
-    console.log( "pad clicked alpha:", alpha);
+    const alpha = this.getTransparencyAtXY( e.pageX - e.currentTarget.offsetLeft, e.pageY - e.currentTarget.offsetTop);
     if( alpha > 127){
       this.setBright( true);
       this.props.padClick( this.props.padNdx);
