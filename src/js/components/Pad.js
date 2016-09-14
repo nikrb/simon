@@ -15,6 +15,7 @@ export default class Pad extends React.Component {
     this.dull.onerror = this.handleError;
     this.dull.src = this.props.padSrcDull;
     this.load_count = 0;
+    // either move litup to parent or maybe add an enabled flag
     this.state = {
       litup : false,
       loaded : false
@@ -37,11 +38,13 @@ export default class Pad extends React.Component {
     const alpha = getTransparencyAtXY( this.dull, e.pageX - e.currentTarget.offsetLeft, e.pageY - e.currentTarget.offsetTop);
     if( alpha > 127){
       this.setBright( true);
-      this.props.padClick( this.props.padNdx);
     }
   }
   padReleased( e){
-    this.setBright( false);
+    if( this.state.litup){
+      this.setBright( false);
+      this.props.padClick( this.props.padNdx);
+    }
   }
   render(){
     let padStyle = {
@@ -56,7 +59,7 @@ export default class Pad extends React.Component {
     if( this.props.padStyle.bottom) padStyle.bottom = this.props.padStyle.bottom;
     if( this.props.padStyle.right) padStyle.right = this.props.padStyle.right;
     return (
-      <img style={padStyle} src={(this.state.litup) ?
+      <img style={padStyle} src={(this.state.litup || this.props.bright) ?
           this.props.padSrcBright : this.props.padSrcDull}
           onMouseDown={this.padClicked.bind(this)} onMouseUp={this.padReleased.bind(this)} />
     );
