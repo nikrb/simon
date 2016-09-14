@@ -5,12 +5,14 @@ import style from '../scss/app.scss';
 import Pad from './components/Pad';
 import ControlButton from './components/ControlButton';
 import ControlLight from './components/ControlLight';
+import ControlCounter from './components/ControlCounter';
 
 class Application extends React.Component {
   constructor( props){
     super( props);
     this.state = {
-      strict_mode : false
+      strict_mode : false,
+      current_count : "--"
     };
   }
   padClick( ndx){
@@ -59,6 +61,7 @@ class Application extends React.Component {
           buttonSrc="/img/buttonYellow.png" />
         <ControlLight top="50%" left="61.5%" lightOn={this.state.strict_mode} lightSrcOff="/img/buttonYellow.png"
           lightSrcOn="/img/buttonRed.png" />
+        <ControlCounter top="53%" left="38%" current_count={this.state.current_count} />
       </div>
     );
   }
