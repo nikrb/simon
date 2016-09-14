@@ -4,13 +4,25 @@ import style from '../scss/app.scss';
 
 import Pad from './components/Pad';
 import ControlButton from './components/ControlButton';
+import ControlLight from './components/ControlLight';
 
 class Application extends React.Component {
+  constructor( props){
+    super( props);
+    this.state = {
+      strict : false
+    };
+  }
   padClick( ndx){
     console.log( "click:", ndx);
   }
   startClicked( e){
     console.log( "start button clicked");
+  }
+  strictClicked( e){
+    console.log( "strict button clicked");
+    const on = !this.state.strict;
+    this.setState( { strict : on});
   }
   render() {
     const padGreen = {
@@ -43,6 +55,10 @@ class Application extends React.Component {
           padSrcDull="/img/padBlueDull.png" padSrcBright="/img/padBlueBright.png"/>
         <ControlButton top="53%" left="48.5%" clicked={this.startClicked.bind(this)}
           buttonSrc="/img/buttonRed.png" />
+        <ControlButton top="53%" left="60%" clicked={this.strictClicked.bind(this)}
+          buttonSrc="/img/buttonYellow.png" />
+        <ControlLight top="50%" left="61.5%" lightOn={this.state.strict} lightSrcOff="/img/buttonYellow.png"
+          lightSrcOn="/img/buttonRed.png" />
       </div>
     );
   }
