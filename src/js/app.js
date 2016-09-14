@@ -17,6 +17,7 @@ class Application extends React.Component {
     this.turnPadOff = this.turnPadOff.bind(this);
     this.nextSequence = this.nextSequence.bind(this);
     this.padClick = this.padClick.bind( this);
+    this.startNextSequence = this.startNextSequence.bind(this);
     // current sequence user has to copy to get right
     this.current_sequence = [];
     // keeps track of current sequence element for playback and user guesses
