@@ -10,7 +10,7 @@ class Application extends React.Component {
   constructor( props){
     super( props);
     this.state = {
-      strict : false
+      strict_mode : false
     };
   }
   padClick( ndx){
@@ -21,8 +21,8 @@ class Application extends React.Component {
   }
   strictClicked( e){
     console.log( "strict button clicked");
-    const on = !this.state.strict;
-    this.setState( { strict : on});
+    const on = !this.state.strict_mode;
+    this.setState( { strict_mode : on});
   }
   render() {
     const padGreen = {
@@ -57,7 +57,7 @@ class Application extends React.Component {
           buttonSrc="/img/buttonRed.png" />
         <ControlButton top="53%" left="60%" clicked={this.strictClicked.bind(this)}
           buttonSrc="/img/buttonYellow.png" />
-        <ControlLight top="50%" left="61.5%" lightOn={this.state.strict} lightSrcOff="/img/buttonYellow.png"
+        <ControlLight top="50%" left="61.5%" lightOn={this.state.strict_mode} lightSrcOff="/img/buttonYellow.png"
           lightSrcOn="/img/buttonRed.png" />
       </div>
     );
