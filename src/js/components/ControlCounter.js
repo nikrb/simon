@@ -11,7 +11,7 @@ export default class ControlButton extends Component {
     style.top = this.props.top;
     style.left = this.props.left;
     return (
-      <span style={style}>{this.props.current_count}</span>
+      <span style={style}>{this.props.display_count}</span>
     );
   }
 }

@@ -12,7 +12,7 @@ class Application extends React.Component {
     super( props);
     this.state = {
       strict_mode : false,
-      current_count : "--"
+      display_count : "--"
     };
   }
   padClick( ndx){
@@ -61,7 +61,7 @@ class Application extends React.Component {
           buttonSrc="/img/buttonYellow.png" />
         <ControlLight top="50%" left="61.5%" lightOn={this.state.strict_mode} lightSrcOff="/img/buttonYellow.png"
           lightSrcOn="/img/buttonRed.png" />
-        <ControlCounter top="53%" left="38%" current_count={this.state.current_count} />
+        <ControlCounter top="53%" left="38%" display_count={this.state.display_count} />
       </div>
     );
   }
