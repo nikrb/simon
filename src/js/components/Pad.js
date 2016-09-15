@@ -36,7 +36,7 @@ export default class Pad extends React.Component {
 
   padClicked( e){
     const alpha = getTransparencyAtXY( this.dull, e.pageX - e.currentTarget.offsetLeft, e.pageY - e.currentTarget.offsetTop);
-    if( alpha > 127){
+    if( this.props.padEnabled && alpha > 127){
       this.setBright( true);
     }
   }
