@@ -72,17 +72,13 @@ class Application extends React.Component {
     alert( "You Won!");
   }
   padClick( ndx){
-    console.log( "click:", ndx);
     // FIXME: we shouldn't need this
     if( this.state.pads_enabled){
-      console.log( "current sequence:", this.current_sequence[this.current_sequence_ndx]);
       if( this.current_sequence[this.current_sequence_ndx] === ndx){
         this.current_sequence_ndx += 1;
-        console.log( "next seq ndx:", this.current_sequence_ndx);
         if( this.current_sequence_ndx >= this.current_sequence_length){
           this.setState( { pads_enabled : false});
           this.current_sequence_length += 1;
-          console.log( "at end of sequence, next seq len:", this.current_sequence_length);
           if( this.current_sequence_length < this.full_sequence_length){
             // give the user a moment before next sequence starts
             setTimeout( this.startNextSequence, 500);
@@ -125,8 +121,6 @@ class Application extends React.Component {
   }
   // start next sequence of pad colours
   startNextSequence(){
-    console.log( "start next sequence");
-    console.log( "   length:", this.current_sequence_length);
     this.setState( { display_count: ""+this.current_sequence_length});
     setTimeout( this.startSequencePlayback, 500);
   }
