@@ -12,7 +12,7 @@ class Application extends React.Component {
     super( props);
     // max sequence length, win condition
     this.full_sequence_length = 20;
-    this.startSequence = this.startSequence.bind(this);
+    this.startSequencePlayback = this.startSequencePlayback.bind(this);
     this.nextSequence = this.nextSequence.bind(this);
     this.startNextSequence = this.startNextSequence.bind(this);
     this.turnPadOff = this.turnPadOff.bind(this);
@@ -40,7 +40,7 @@ class Application extends React.Component {
     return seq;
   }
   // start sequence playback
-  startSequence(){
+  startSequencePlayback(){
     this.current_sequence_ndx = 0;
     this.setState( { pads_enabled : false});
     this.nextSequence();
@@ -119,14 +119,16 @@ class Application extends React.Component {
       if( this.state.strict_mode){
         this.startFreshSequence();
       } else {
-        setTimeout( this.startSequence, 250);
+        setTimeout( this.startNextSequence, 250);
       }
     }
   }
   // start next sequence of pad colours
   startNextSequence(){
+    console.log( "start next sequence");
+    console.log( "   length:", this.current_sequence_length);
     this.setState( { display_count: ""+this.current_sequence_length});
-    setTimeout( this.startSequence, 500);
+    setTimeout( this.startSequencePlayback, 500);
   }
   startClicked( e){
     console.log( "start button clicked");
