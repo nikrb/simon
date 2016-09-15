@@ -4,9 +4,22 @@ import {getTransparencyAtXY} from "./Utils";
 export default class ControlButton extends Component {
   constructor( props){
     super( props);
+    this.state = {
+      pressed : false
+    }
+  }
+  mouseDown( e){
+    this.setState( { pressed : true});
+  }
+  mouseRelease(e){
+    this.setState( { pressed: false});
+    this.props.clicked( e);
   }
   render(){
+    const box = this.state.pressed? "0px 0px 0px #888888" : "2px 2px 3px #888888";
     let button_style = {
+      borderRadius: "100%",
+      boxShadow: box,
       width: "5%",
       cursor: "pointer",
       position: "absolute",
@@ -15,7 +28,8 @@ export default class ControlButton extends Component {
     button_style.top = this.props.top;
     button_style.left = this.props.left;
     return (
-      <img src={this.props.buttonSrc} onClick={this.props.clicked} style={button_style} />
+      <img src={this.props.buttonSrc} onMouseDown={this.mouseDown.bind(this)}
+        onMouseUp={this.mouseRelease.bind(this)} style={button_style} />
     );
   }
 }
