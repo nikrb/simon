@@ -43,10 +43,18 @@ export default class Pad extends React.Component {
   padReleased( e){
     if( this.state.litup){
       this.setBright( false);
-      this.props.padClick( this.props.padNdx);
+      const alpha = getTransparencyAtXY( this.dull, e.pageX - e.currentTarget.offsetLeft, e.pageY - e.currentTarget.offsetTop);
+      if( alpha ){
+        this.props.padClick( this.props.padNdx);
+      }
     }
   }
   render(){
+    // FIXME: onDragStart doesn't do the trick
+    const pad = document.getElementById( this.props.padSrcDull);
+    if( pad){
+      pad.ondragstart = function() { return false; };
+    }
     let padStyle = {
       cursor: "pointer",
       width: "50%",
@@ -59,7 +67,7 @@ export default class Pad extends React.Component {
     if( this.props.padStyle.bottom) padStyle.bottom = this.props.padStyle.bottom;
     if( this.props.padStyle.right) padStyle.right = this.props.padStyle.right;
     return (
-      <img style={padStyle} src={(this.state.litup || this.props.bright) ?
+      <img id={this.props.padSrcDull} style={padStyle} src={(this.state.litup || this.props.bright) ?
           this.props.padSrcBright : this.props.padSrcDull}
           onMouseDown={this.padClicked.bind(this)} onMouseUp={this.padReleased.bind(this)} />
     );
