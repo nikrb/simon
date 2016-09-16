@@ -14,6 +14,7 @@ class Application extends React.Component {
                     new Audio( "https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
                     new Audio( "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
                     new Audio( "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3")];
+    this.oopsSound = new Audio( "/audio/wrong.mp3");
     // max sequence length, win condition
     this.full_sequence_length = 20;
     this.startSequencePlayback = this.startSequencePlayback.bind(this);
@@ -100,10 +101,15 @@ class Application extends React.Component {
         }
       } else {
         this.setState( { pads_enabled: false});
-        // play a mistake sound
+        this.playOopsSound();
         this.startFlashError();
       }
     }
+  }
+  playOopsSound(){
+    this.oopsSound.currentTime = 0;
+    this.oopsSound.volume = 0.2;
+    this.oopsSound.play();
   }
   startFlashError(){
     this.flash_error = 4;
