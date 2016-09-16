@@ -33,17 +33,23 @@ export default class Pad extends React.Component {
   setBright( bright){
     this.setState( { litup : bright});
   }
-
+  getXY( e){
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.pageX - rect.left;
+    const y = e.pageY - rect.top;
+    return { x, y};
+  }
   padClicked( e){
-    const alpha = getTransparencyAtXY( this.dull, e.pageX - e.currentTarget.offsetLeft, e.pageY - e.currentTarget.offsetTop);
-    if( this.props.padEnabled && alpha > 127){
+    const pt = this.getXY( e);
+    const alpha = getTransparencyAtXY( this.dull, pt);
+    if( this.props.padEnabled && alpha > 0){
       this.setBright( true);
     }
   }
   padReleased( e){
     if( this.state.litup){
       this.setBright( false);
-      const alpha = getTransparencyAtXY( this.dull, e.pageX - e.currentTarget.offsetLeft, e.pageY - e.currentTarget.offsetTop);
+      const alpha = getTransparencyAtXY( this.dull, this.getXY( e));
       if( alpha ){
         this.props.padClick( this.props.padNdx);
       }

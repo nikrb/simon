@@ -159,7 +159,7 @@ class Application extends React.Component {
 
     return (
       <div id="simon-container">
-        <img id="simonMainImage" src="/img/simonBase.png" />
+        <img src="/img/simonBase.png" />
         <Pad padStyle={padGreen} padNdx={0} padClick={this.padClick.bind(this)}
           bright={this.state.pad_litup[0]} padEnabled={this.state.pads_enabled}
           padSrcDull="/img/padGreenDull.png" padSrcBright="/img/padGreenBright.png" />
