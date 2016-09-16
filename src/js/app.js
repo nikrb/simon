@@ -10,6 +10,10 @@ import ControlCounter from './components/ControlCounter';
 class Application extends React.Component {
   constructor( props){
     super( props);
+    this.sounds = [ new Audio( "https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
+                    new Audio( "https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
+                    new Audio( "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
+                    new Audio( "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3")];
     // max sequence length, win condition
     this.full_sequence_length = 20;
     this.startSequencePlayback = this.startSequencePlayback.bind(this);
@@ -49,7 +53,9 @@ class Application extends React.Component {
   nextSequence(){
     // TODO: is it bad practice to use const for litup?
     const litup = this.state.pad_litup.slice(0);
-    litup[this.current_sequence[this.current_sequence_ndx]] = true;
+    const colour_ndx = this.current_sequence[this.current_sequence_ndx];
+    litup[colour_ndx] = true;
+    this.sounds[colour_ndx].play();
     this.setState( { pad_litup : litup});
     setTimeout( this.turnPadOff, 700);
   }
@@ -71,9 +77,15 @@ class Application extends React.Component {
   showWinDlg(){
     alert( "You Won!");
   }
+  padDown( ndx){
+    this.sounds[ndx].currentTime = 0;
+    this.sounds[ndx].play();
+  }
+  // TODO: this should be padRelease
   padClick( ndx){
     // FIXME: we shouldn't need this
     if( this.state.pads_enabled){
+      this.sounds[ndx].pause;
       if( this.current_sequence[this.current_sequence_ndx] === ndx){
         this.current_sequence_ndx += 1;
         if( this.current_sequence_ndx >= this.current_sequence_length){
@@ -162,15 +174,19 @@ class Application extends React.Component {
         <img src="/img/simonBase.png" />
         <Pad padStyle={padGreen} padNdx={0} padClick={this.padClick.bind(this)}
           bright={this.state.pad_litup[0]} padEnabled={this.state.pads_enabled}
+          padDown={this.padDown.bind(this)}
           padSrcDull="/img/padGreenDull.png" padSrcBright="/img/padGreenBright.png" />
         <Pad padStyle={padRed} padNdx={1} padClick={this.padClick.bind(this)}
           bright={this.state.pad_litup[1]} padEnabled={this.state.pads_enabled}
+          padDown={this.padDown.bind(this)}
           padSrcDull="/img/padRedDull.png" padSrcBright="/img/padRedBright.png"/>
         <Pad padStyle={padYellow} padNdx={2} padClick={this.padClick.bind(this)}
           bright={this.state.pad_litup[2]} padEnabled={this.state.pads_enabled}
+          padDown={this.padDown.bind(this)}
           padSrcDull="/img/padYellowDull.png" padSrcBright="/img/padYellowBright.png" />
         <Pad padStyle={padBlue} padNdx={3} padClick={this.padClick.bind(this)}
           bright={this.state.pad_litup[3]} padEnabled={this.state.pads_enabled}
+          padDown={this.padDown.bind(this)}
           padSrcDull="/img/padBlueDull.png" padSrcBright="/img/padBlueBright.png"/>
         <ControlButton top="53%" left="48.5%" clicked={this.startClicked.bind(this)}
           buttonSrc="/img/buttonRed.png" />

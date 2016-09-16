@@ -43,6 +43,7 @@ export default class Pad extends React.Component {
     const pt = this.getXY( e);
     const alpha = getTransparencyAtXY( this.dull, pt);
     if( this.props.padEnabled && alpha > 0){
+      this.props.padDown( this.props.padNdx);
       this.setBright( true);
     }
   }
