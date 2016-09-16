@@ -16,7 +16,7 @@ export default class ControlButton extends Component {
     this.props.clicked( e);
   }
   render(){
-    const box = this.state.pressed? "0px 0px 0px #888888" : "2px 2px 3px #888888";
+    const box = this.state.pressed? "0px 0px 0px #888888" : "0px 2px 5px #888888";
     let button_style = {
       borderRadius: "100%",
       boxShadow: box,

@@ -4,7 +4,7 @@ export default class ControlButton extends Component {
   render(){
     let style = {
       color: "red",
-      fontSize: "1.5em",
+      fontSize: "150%",
       position: "absolute",
       zIndex: "105"
     };
