@@ -47,16 +47,8 @@ export default class Pad extends React.Component {
   setBright( bright){
     this.setState( { litup : bright});
   }
-  getXY( e){
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.pageX - rect.left;
-    const y = e.pageY - rect.top;
-    return { x, y};
-  }
   padClicked( e){
-    const pt = this.getXY( e);
-    const box = { width: this.image_tag.width, height: this.image_tag.height};
-    const alpha = getTransparencyAtXY( this.dull, box, pt);
+    const alpha = getTransparencyAtXY(e);
     if( this.props.padEnabled && alpha > 0){
       this.setBright( true);
       this.sound.currentTime = 0;
@@ -67,12 +59,14 @@ export default class Pad extends React.Component {
     const litup = this.state.litup;
     this.setBright( false);
     if( litup){
-      const box = { width: this.image_tag.width, height: this.image_tag.height};
-      const alpha = getTransparencyAtXY( this.dull, box, this.getXY( e));
+      const alpha = getTransparencyAtXY( e);
       if( alpha > 0 ){
         this.props.padClick( this.props.padNdx);
       }
     }
+  }
+  padLeave( e){
+    this.setBright( false);
   }
   render(){
     // FIXME: onDragStart doesn't do the trick
@@ -95,7 +89,8 @@ export default class Pad extends React.Component {
       <img id={this.props.padSrcDull} style={padStyle} src={(this.state.litup) ?
           this.props.padSrcBright : this.props.padSrcDull}
           ref={ (imgtag) => { this.image_tag = imgtag}}
-          onMouseDown={this.padClicked.bind(this)} onMouseUp={this.padReleased.bind(this)} />
+          onMouseDown={this.padClicked.bind(this)} onMouseUp={this.padReleased.bind(this)}
+          onMouseLeave={this.padLeave.bind(this)} />
     );
   }
 }
