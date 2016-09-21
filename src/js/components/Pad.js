@@ -20,6 +20,10 @@ export default class Pad extends React.Component {
       litup : false,
       loaded : false
     };
+    this.sound = null;
+  }
+  componentWillMount(){
+    this.sound = new Audio( this.props.sound);
   }
   handleLoad( e){
     this.load_count += 1;
@@ -29,6 +33,15 @@ export default class Pad extends React.Component {
   }
   handleError( e){
     console.error( "pad image load error:", e);
+  }
+  play( ){
+    this.setBright( true);
+    this.sound.currentTime = 0;
+    this.sound.play();
+  }
+  stop(){
+    this.setBright( false);
+    this.sound.pause();
   }
   setBright( bright){
     this.setState( { litup : bright});
@@ -43,13 +56,16 @@ export default class Pad extends React.Component {
     const pt = this.getXY( e);
     const alpha = getTransparencyAtXY( this.dull, pt);
     if( this.props.padEnabled && alpha > 0){
-      this.props.padDown( this.props.padNdx);
+      // this.props.padDown( this.props.padNdx);
       this.setBright( true);
+      this.sound.currentTime = 0;
+      this.sound.play();
     }
   }
   padReleased( e){
     if( this.state.litup){
       this.setBright( false);
+      this.sound.pause();
       const alpha = getTransparencyAtXY( this.dull, this.getXY( e));
       if( alpha ){
         this.props.padClick( this.props.padNdx);
@@ -74,7 +90,7 @@ export default class Pad extends React.Component {
     if( this.props.padStyle.bottom) padStyle.bottom = this.props.padStyle.bottom;
     if( this.props.padStyle.right) padStyle.right = this.props.padStyle.right;
     return (
-      <img id={this.props.padSrcDull} style={padStyle} src={(this.state.litup || this.props.bright) ?
+      <img id={this.props.padSrcDull} style={padStyle} src={(this.state.litup) ?
           this.props.padSrcBright : this.props.padSrcDull}
           onMouseDown={this.padClicked.bind(this)} onMouseUp={this.padReleased.bind(this)} />
     );
