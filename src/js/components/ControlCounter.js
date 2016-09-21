@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 
-export default class ControlButton extends Component {
+export default class ControlCounter extends Component {
   constructor( props){
     super( props);
-    this.oopsSound = new Audio( "/audio/wrong.mp3");
+    this.oopsSound = null;
     // FIXME: do we need this bind?
     this.flashError = this.flashError.bind(this);
     this.flash_count = 0;
@@ -13,15 +13,19 @@ export default class ControlButton extends Component {
       display_error: ""
     }
   }
+  componentWillMount(){
+    this.oopsSound = new Audio( this.props.sound);
+    this.oopsSound.volume = 0.2;
+  }
   playOopsSound(){
     this.oopsSound.currentTime = 0;
-    this.oopsSound.volume = 0.2;
     this.oopsSound.play();
   }
   startFlashError(){
     this.show_error = true;
     this.flash_error = 4;
     this.flash_visible = false;
+    this.playOopsSound();
     this.flashError();
   }
   flashError(){

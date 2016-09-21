@@ -117,6 +117,10 @@ class Application extends React.Component {
     this.setState( { strict_mode : on});
   }
   render() {
+    const img_style = {
+      width : "100%"
+    };
+
     const padGreen = {
       top: "0px",
       left: "0px"
@@ -136,7 +140,7 @@ class Application extends React.Component {
 
     return (
       <div id="simon-container">
-        <img src="/img/simonBase.png" />
+        <img style={img_style} src="/img/simonBase.png" />
         <Pad ref={(pad) => { this.pads[0] = pad}}
           sound="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"
           padStyle={padGreen} padNdx={0} padClick={this.padClick.bind(this)}
@@ -148,12 +152,12 @@ class Application extends React.Component {
           padEnabled={this.state.pads_enabled}
           padSrcDull="/img/padRedDull.png" padSrcBright="/img/padRedBright.png"/>
         <Pad  ref={(pad) => { this.pads[2] = pad}}
-          sound="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"
+          sound="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"
           padStyle={padYellow} padNdx={2} padClick={this.padClick.bind(this)}
           padEnabled={this.state.pads_enabled}
           padSrcDull="/img/padYellowDull.png" padSrcBright="/img/padYellowBright.png" />
         <Pad  ref={(pad) => { this.pads[3] = pad}}
-          sound="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"
+          sound="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"
           padStyle={padBlue} padNdx={3} padClick={this.padClick.bind(this)}
           padEnabled={this.state.pads_enabled}
           padSrcDull="/img/padBlueDull.png" padSrcBright="/img/padBlueBright.png"/>
@@ -165,6 +169,7 @@ class Application extends React.Component {
           lightSrcOn="/img/buttonRed.png" />
         <ControlCounter ref={(counter) => { this.counterControl = counter}}
           errorDisplayFinished={ this.errorFinished.bind(this)}
+          sound="/audio/wrong.mp3"
           top="53%" left="38%" display_count={this.state.display_count} />
       </div>
     );

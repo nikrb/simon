@@ -14,6 +14,7 @@ export default class Pad extends React.Component {
     this.dull.onload = this.handleLoad;
     this.dull.onerror = this.handleError;
     this.dull.src = this.props.padSrcDull;
+    this.image_tag = null;
     this.load_count = 0;
     // either move litup to parent or maybe add an enabled flag
     this.state = {
@@ -54,20 +55,21 @@ export default class Pad extends React.Component {
   }
   padClicked( e){
     const pt = this.getXY( e);
-    const alpha = getTransparencyAtXY( this.dull, pt);
+    const box = { width: this.image_tag.width, height: this.image_tag.height};
+    const alpha = getTransparencyAtXY( this.dull, box, pt);
     if( this.props.padEnabled && alpha > 0){
-      // this.props.padDown( this.props.padNdx);
       this.setBright( true);
       this.sound.currentTime = 0;
       this.sound.play();
     }
   }
   padReleased( e){
-    if( this.state.litup){
-      this.setBright( false);
-      this.sound.pause();
-      const alpha = getTransparencyAtXY( this.dull, this.getXY( e));
-      if( alpha ){
+    const litup = this.state.litup;
+    this.setBright( false);
+    if( litup){
+      const box = { width: this.image_tag.width, height: this.image_tag.height};
+      const alpha = getTransparencyAtXY( this.dull, box, this.getXY( e));
+      if( alpha > 0 ){
         this.props.padClick( this.props.padNdx);
       }
     }
@@ -92,6 +94,7 @@ export default class Pad extends React.Component {
     return (
       <img id={this.props.padSrcDull} style={padStyle} src={(this.state.litup) ?
           this.props.padSrcBright : this.props.padSrcDull}
+          ref={ (imgtag) => { this.image_tag = imgtag}}
           onMouseDown={this.padClicked.bind(this)} onMouseUp={this.padReleased.bind(this)} />
     );
   }

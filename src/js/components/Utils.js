@@ -7,10 +7,10 @@ function getPixelXY( imgData, x, y){
   return getPixel(imgData, y*imgData.width+x);
 }
 
-export function getTransparencyAtXY( img, pt){
+export function getTransparencyAtXY( img, image_box, pt){
   const cvs = document.createElement('canvas')
-  cvs.width = img.width;
-  cvs.height = img.height;
+  cvs.width = image_box.width;
+  cvs.height = image_box.height;
   const ctx = cvs.getContext("2d");
   ctx.drawImage( img, 0, 0, cvs.width, cvs.height);
   const image_data = ctx.getImageData( 0,0,cvs.width, cvs.height);
