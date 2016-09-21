@@ -50,7 +50,6 @@ export default class ControlCounter extends Component {
   render(){
     let style = {
       color: "red",
-      fontSize: "150%",
       position: "absolute",
       zIndex: "105"
     };
