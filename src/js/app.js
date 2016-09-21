@@ -10,11 +10,6 @@ import ControlCounter from './components/ControlCounter';
 class Application extends React.Component {
   constructor( props){
     super( props);
-    this.sounds = [ new Audio( "https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
-                    new Audio( "https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
-                    new Audio( "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
-                    new Audio( "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3")];
-    this.oopsSound = new Audio( "/audio/wrong.mp3");
     // max sequence length, win condition
     this.full_sequence_length = 20;
     this.startSequencePlayback = this.startSequencePlayback.bind(this);
@@ -22,8 +17,6 @@ class Application extends React.Component {
     this.startNextSequence = this.startNextSequence.bind(this);
     this.turnPadOff = this.turnPadOff.bind(this);
     this.padClick = this.padClick.bind( this);
-    this.flashError = this.flashError.bind(this);
-    this.flash_count = 0;
     // the current sequence the user is following, 1 to full_sequence_length
     this.current_sequence_length = 1;
     // current sequence user has to copy to get right
@@ -31,10 +24,11 @@ class Application extends React.Component {
     // keeps track of current sequence element for playback and user guesses
     this.current_sequence_ndx = 0;
     this.pads = [];
+    this.counterControl = null;
     this.state = {
       pads_enabled : false,
       strict_mode : false,
-      display_count : "--",
+      display_count : "--"
     };
   }
   generateSequence(){
@@ -72,16 +66,18 @@ class Application extends React.Component {
   showWinDlg(){
     alert( "You Won!");
   }
+  errorFinished(){
+    if( this.state.strict_mode){
+      this.startFreshSequence();
+    } else {
+      setTimeout( this.startNextSequence, 250);
+    }
+  }
 
-  // padDown( ndx){
-  //   this.sounds[ndx].currentTime = 0;
-  //   this.sounds[ndx].play();
-  // }
   // TODO: this should be padRelease
   padClick( ndx){
     // FIXME: we shouldn't need this
     if( this.state.pads_enabled){
-      this.sounds[ndx].pause;
       if( this.current_sequence[this.current_sequence_ndx] === ndx){
         this.current_sequence_ndx += 1;
         if( this.current_sequence_ndx >= this.current_sequence_length){
@@ -96,42 +92,11 @@ class Application extends React.Component {
         }
       } else {
         this.setState( { pads_enabled: false});
-        this.playOopsSound();
-        this.startFlashError();
+        this.counterControl.startFlashError();
       }
     }
   }
-  playOopsSound(){
-    this.oopsSound.currentTime = 0;
-    this.oopsSound.volume = 0.2;
-    this.oopsSound.play();
-  }
-  startFlashError(){
-    this.flash_error = 4;
-    this.flash_visible = false;
-    this.flashError();
-  }
-  flashError(){
-    if( this.flash_error > 0){
-      this.flash_error -= 1;
-      if( this.flash_visible){
-        this.flash_visible = false;
-        this.setState( { display_count: ""});
-        setTimeout( this.flashError, 300);
-      } else {
-        this.flash_visible = true;
-        this.setState( { display_count: "!!"});
-        setTimeout( this.flashError, 500);
-      }
-    } else {
-      // TODO: maybe sync this call to end of mistake sound
-      if( this.state.strict_mode){
-        this.startFreshSequence();
-      } else {
-        setTimeout( this.startNextSequence, 250);
-      }
-    }
-  }
+
   // start next sequence of pad colours
   startNextSequence(){
     this.setState( { display_count: ""+this.current_sequence_length});
@@ -148,7 +113,6 @@ class Application extends React.Component {
     this.startNextSequence();
   }
   strictClicked( e){
-    console.log( "strict button clicked");
     const on = !this.state.strict_mode;
     this.setState( { strict_mode : on});
   }
@@ -199,7 +163,9 @@ class Application extends React.Component {
           buttonSrc="/img/buttonYellow.png" />
         <ControlLight top="50%" left="61.5%" lightOn={this.state.strict_mode} lightSrcOff="/img/buttonYellow.png"
           lightSrcOn="/img/buttonRed.png" />
-        <ControlCounter top="53%" left="38%" display_count={this.state.display_count} />
+        <ControlCounter ref={(counter) => { this.counterControl = counter}}
+          errorDisplayFinished={ this.errorFinished.bind(this)}
+          top="53%" left="38%" display_count={this.state.display_count} />
       </div>
     );
   }
