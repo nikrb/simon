@@ -1,3 +1,5 @@
+// height 100% centres game nicely for firefox but hit testing for pads
+// doesn't work in chrome
 html, body{
   height: 100%
 }
