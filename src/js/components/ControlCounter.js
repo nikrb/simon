@@ -4,8 +4,6 @@ export default class ControlCounter extends Component {
   constructor( props){
     super( props);
     this.oopsSound = null;
-    // FIXME: do we need this bind?
-    this.flashError = this.flashError.bind(this);
     this.flash_count = 0;
     this.flash_visible = false;
     this.show_error = false;
@@ -28,7 +26,7 @@ export default class ControlCounter extends Component {
     this.playOopsSound();
     this.flashError();
   }
-  flashError(){
+  flashError = () => {
     if( this.flash_error > 0){
       this.flash_error -= 1;
       if( this.flash_visible){

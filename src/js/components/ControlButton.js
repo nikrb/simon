@@ -8,10 +8,10 @@ export default class ControlButton extends Component {
       pressed : false
     }
   }
-  mouseDown( e){
+  mouseDown = e => {
     this.setState( { pressed : true});
   }
-  mouseRelease(e){
+  mouseRelease = e => {
     this.setState( { pressed: false});
     this.props.clicked( e);
   }
@@ -28,8 +28,8 @@ export default class ControlButton extends Component {
     button_style.top = this.props.top;
     button_style.left = this.props.left;
     return (
-      <img src={this.props.buttonSrc} onMouseDown={this.mouseDown.bind(this)}
-        onMouseUp={this.mouseRelease.bind(this)} style={button_style} />
+      <img src={this.props.buttonSrc} onMouseDown={this.mouseDown}
+        onMouseUp={this.mouseRelease} style={button_style} />
     );
   }
 }
