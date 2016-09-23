@@ -134,38 +134,48 @@ class Application extends React.Component {
     };
 
     return (
-      <div id="simon-container">
-        <img style={img_style} src="/img/simonBase.png" />
-        <Pad ref={(pad) => { this.pads[0] = pad}}
-          sound="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"
-          padStyle={padGreen} padNdx={0} padClick={this.padClick}
-          padEnabled={this.state.pads_enabled}
-          padSrcDull="/img/padGreenDull.png" padSrcBright="/img/padGreenBright.png" />
-        <Pad  ref={(pad) => { this.pads[1] = pad}}
-          sound="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"
-          padStyle={padRed} padNdx={1} padClick={this.padClick}
-          padEnabled={this.state.pads_enabled}
-          padSrcDull="/img/padRedDull.png" padSrcBright="/img/padRedBright.png"/>
-        <Pad  ref={(pad) => { this.pads[2] = pad}}
-          sound="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"
-          padStyle={padYellow} padNdx={2} padClick={this.padClick}
-          padEnabled={this.state.pads_enabled}
-          padSrcDull="/img/padYellowDull.png" padSrcBright="/img/padYellowBright.png" />
-        <Pad  ref={(pad) => { this.pads[3] = pad}}
-          sound="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"
-          padStyle={padBlue} padNdx={3} padClick={this.padClick}
-          padEnabled={this.state.pads_enabled}
-          padSrcDull="/img/padBlueDull.png" padSrcBright="/img/padBlueBright.png"/>
-        <ControlButton top="53%" left="48.5%" clicked={this.startClicked}
-          buttonSrc="/img/buttonRed.png" />
-        <ControlButton top="53%" left="60%" clicked={this.strictClicked}
-          buttonSrc="/img/buttonYellow.png" />
-        <ControlLight top="50%" left="61.5%" lightOn={this.state.strict_mode} lightSrcOff="/img/buttonYellow.png"
-          lightSrcOn="/img/buttonRed.png" />
-        <ControlCounter ref={(counter) => { this.counterControl = counter}}
-          errorDisplayFinished={this.errorFinished}
-          sound="/audio/wrong.mp3"
-          top="53%" left="38%" display_count={this.state.display_count} />
+      <div>
+        <div id="simon-container">
+          <img style={img_style} src="/img/simonBase.png" />
+          <Pad ref={(pad) => { this.pads[0] = pad}}
+            sound="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"
+            padStyle={padGreen} padNdx={0} padClick={this.padClick}
+            padEnabled={this.state.pads_enabled}
+            padSrcDull="/img/padGreenDull.png" padSrcBright="/img/padGreenBright.png" />
+          <Pad  ref={(pad) => { this.pads[1] = pad}}
+            sound="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"
+            padStyle={padRed} padNdx={1} padClick={this.padClick}
+            padEnabled={this.state.pads_enabled}
+            padSrcDull="/img/padRedDull.png" padSrcBright="/img/padRedBright.png"/>
+          <Pad  ref={(pad) => { this.pads[2] = pad}}
+            sound="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"
+            padStyle={padYellow} padNdx={2} padClick={this.padClick}
+            padEnabled={this.state.pads_enabled}
+            padSrcDull="/img/padYellowDull.png" padSrcBright="/img/padYellowBright.png" />
+          <Pad  ref={(pad) => { this.pads[3] = pad}}
+            sound="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"
+            padStyle={padBlue} padNdx={3} padClick={this.padClick}
+            padEnabled={this.state.pads_enabled}
+            padSrcDull="/img/padBlueDull.png" padSrcBright="/img/padBlueBright.png"/>
+          <ControlButton top="53%" left="48.5%" clicked={this.startClicked}
+            buttonSrc="/img/buttonRed.png" />
+          <ControlButton top="53%" left="60%" clicked={this.strictClicked}
+            buttonSrc="/img/buttonYellow.png" />
+          <ControlLight top="50%" left="61.5%" lightOn={this.state.strict_mode} lightSrcOff="/img/buttonYellow.png"
+            lightSrcOn="/img/buttonRed.png" />
+          <ControlCounter ref={(counter) => { this.counterControl = counter}}
+            errorDisplayFinished={this.errorFinished}
+            sound="/audio/wrong.mp3"
+            top="53%" left="38%" display_count={this.state.display_count} />
+        </div>
+        <footer>
+          <p>
+            Written and coded by <a href="https://www.freecodecamp.com/nikrb" target="_blank">Nick Scott</a>
+          </p>
+          <p>
+             source on <a href="https://github.com/nikrb/simon" target="_blank">Github</a>
+          </p>
+        </footer>
       </div>
     );
   }
